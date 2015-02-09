@@ -1,5 +1,5 @@
 {
-    "name": "willdurand/geocoder",
+    "name": "marshnmedia/geocoder",
     "type": "library",
     "description": "The almost missing Geocoder PHP 5.4 library.",
     "keywords": ["geocoder", "geocoding", "abstraction", "geoip"],
@@ -32,9 +32,6 @@
     "extra": {
         "branch-alias": {
             "dev-master": "3.0-dev"
-        },
-        "branch-alias": {
-            "dev-bugfix": "~2.4"
         }
     }
 }
