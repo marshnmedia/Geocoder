@@ -133,8 +133,13 @@ class BingMapsProvider extends AbstractProvider implements LocaleAwareProviderIn
             $zipcode      = property_exists($item->address, 'postalCode') ? (string) $item->address->postalCode : '';
             $city         = property_exists($item->address, 'locality') ? (string) $item->address->locality: '';
             $county       = property_exists($item->address, 'adminDistrict2') ? (string) $item->address->adminDistrict2 : '';
-            $region       = property_exists($item->address, 'adminDistrict') ? (string) $item->address->adminDistrict: '';
+            $region       = property_exists($item->address, 'adminDistrict') ? (string) strtoupper($item->address->adminDistrict): '';
             $country      = property_exists($item->address, 'countryRegion') ? (string) $item->address->countryRegion: '';
+            $countryCode = strtoupper($country) === 'UNITED STATES' ? 'US' : '';
+
+            $confidence = isset($item->confidence) && $item->confidence != '' ? strtoupper($item->confidence) : 'LOW';
+            \Log::info('ITEM Confidence:');
+            \Log::info(print_r($item->confidence,true));
 
             $results[] = array_merge($this->getDefaults(), array(
                 'latitude'     => $coordinates[0],
@@ -146,7 +151,12 @@ class BingMapsProvider extends AbstractProvider implements LocaleAwareProviderIn
                 'zipcode'      => empty($zipcode) ? null : $zipcode,
                 'county'       => empty($county) ? null : $county,
                 'region'       => empty($region) ? null : $region,
+                'regionCode'  => empty($region) ? null : $region,
                 'country'      => empty($country) ? null : $country,
+                'countryCode' => empty($countryCode) ? null : $countryCode,
+                'raw'         => $content,
+                'provider'    => $this->getName(),
+                'confidence'  => empty($confidence) ? null : $confidence,
             ));
         }
 

@@ -90,6 +90,11 @@ class Geocoded extends AbstractResult implements ResultInterface
      */
     protected $timezone = null;
 
+    protected $zipcode_suffix;
+    protected $provider;
+    protected $raw;
+    protected $confidence;
+
     /**
      * {@inheritDoc}
      */
@@ -221,8 +226,53 @@ class Geocoded extends AbstractResult implements ResultInterface
     /**
      * {@inheritDoc}
      */
+    public function getZipcodeSuffix()
+    {
+        return $this->zipcode_suffix;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProvider()
+    {
+        return $this->provider;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRaw()
+    {
+        return $this->raw;
+    }
+
+    public function getConfidence()
+    {
+      return $this->confidence;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function fromArray(array $data = array())
     {
+        if(isset($data['raw'])) {
+          $this->raw = $data['raw'];
+        }
+
+        if(isset($data['provider'])) {
+          $this->provider = $data['provider'];
+        }
+
+        if(isset($data['zipcode_suffix'])) {
+          $this->zipcode_suffix = $data['zipcode_suffix'];
+        }
+
+        if(isset($data['confidence'])) {
+          $this->confidence = $data['confidence'];
+        }
+
         if (isset($data['latitude'])) {
             $this->latitude = (double) $data['latitude'];
         }
@@ -310,6 +360,10 @@ class Geocoded extends AbstractResult implements ResultInterface
             'country'       => $this->country,
             'countryCode'   => $this->countryCode,
             'timezone'      => $this->timezone,
+            'raw'           => $this->raw,
+            'confidence'    => $this->confidence,
+            'provider'      => $this->provider,
+            'zipcode_suffix'=> $this->zipcode_suffix,
         );
     }
 }

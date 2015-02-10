@@ -195,6 +195,12 @@ class GoogleMapsProvider extends AbstractProvider implements LocaleAwareProvider
                 );
             }
 
+            $resultset['provider'] = $this->getName();
+            $resultset['raw'] = $content;
+
+            //TODO: medium?
+            $resultset['confidence'] = 'ROOFTOP' === $result->geometry->location_type ? 'HIGH' : 'LOW';
+
             $results[] = array_merge($this->getDefaults(), $resultset);
         }
 
@@ -216,6 +222,10 @@ class GoogleMapsProvider extends AbstractProvider implements LocaleAwareProvider
             case 'postal_code':
                 $resultset['zipcode'] = $values->long_name;
                 break;
+
+            case 'postal_code_suffix':
+              $resultset['zipcode_suffix'] = $values->long_name;
+              break;
 
             case 'locality':
                 $resultset['city'] = $values->long_name;
