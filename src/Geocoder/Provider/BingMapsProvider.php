@@ -138,8 +138,6 @@ class BingMapsProvider extends AbstractProvider implements LocaleAwareProviderIn
             $countryCode = strtoupper($country) === 'UNITED STATES' ? 'US' : '';
 
             $confidence = isset($item->confidence) && $item->confidence != '' ? strtoupper($item->confidence) : 'LOW';
-            \Log::info('ITEM Confidence:');
-            \Log::info(print_r($item->confidence,true));
 
             $results[] = array_merge($this->getDefaults(), array(
                 'latitude'     => $coordinates[0],
