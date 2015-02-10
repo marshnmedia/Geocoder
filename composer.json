@@ -31,7 +31,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0-dev"
+            "dev-master": "3.0-dev",
+            "dev-bugfix": "~2.8"
         }
     }
 }
