@@ -73,6 +73,8 @@ class CurlHttpAdapter implements HttpAdapterInterface
         if (false === $content) {
             $content = null;
         }
+\Log::info('GEOCODER RAW RESULT');
+\Log::info($content);
 
         return $content;
     }
