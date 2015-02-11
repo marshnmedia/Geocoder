@@ -94,6 +94,10 @@ class Geocoded extends AbstractResult implements ResultInterface
     protected $provider;
     protected $raw;
     protected $confidence;
+    protected $result_count;
+    protected $calculation_method;
+    protected $partial_match;
+    protected $types;
 
     /**
      * {@inheritDoc}
@@ -252,6 +256,22 @@ class Geocoded extends AbstractResult implements ResultInterface
       return $this->confidence;
     }
 
+    public function getResultCount()
+    {
+      return $this->result_count;
+    }
+    public function getCalculationMethod()
+    {
+      return $this->calculation_method;
+    }
+    public function getPartialMatch()
+    {
+      return $this->partial_match;
+    }
+    public function getTypes() {
+      return $this->types;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -271,6 +291,19 @@ class Geocoded extends AbstractResult implements ResultInterface
 
         if(isset($data['confidence'])) {
           $this->confidence = $data['confidence'];
+        }
+
+        if(isset($data['result_count'])) {
+          $this->result_count = $data['result_count'];
+        }
+        if(isset($data['calculation_method'])) {
+          $this->calculation_method = $data['calculation_method'];
+        }
+        if(isset($data['partial_match'])) {
+          $this->partial_match = $data['partial_match'];
+        }
+        if(isset($data['types'])) {
+          $this->types = $data['types'];
         }
 
         if (isset($data['latitude'])) {
@@ -364,6 +397,10 @@ class Geocoded extends AbstractResult implements ResultInterface
             'confidence'    => $this->confidence,
             'provider'      => $this->provider,
             'zipcode_suffix'=> $this->zipcode_suffix,
+            'result_count'  => $this->result_count,
+            'calculation_method'  => $this->calculation_method,
+            'partial_match' => $this->partial_match,
+            'types'         => $this->types,
         );
     }
 }

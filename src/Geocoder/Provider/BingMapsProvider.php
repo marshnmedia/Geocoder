@@ -117,6 +117,7 @@ class BingMapsProvider extends AbstractProvider implements LocaleAwareProviderIn
 
         foreach ($data as $item) {
             $coordinates = (array) $item->geocodePoints[0]->coordinates;
+            $calculation_method = $item->geocodePoints[0]->calculationMethod;
 
             $bounds = null;
             if (isset($item->bbox) && is_array($item->bbox) && count($item->bbox) > 0) {
@@ -139,6 +140,11 @@ class BingMapsProvider extends AbstractProvider implements LocaleAwareProviderIn
 
             $confidence = isset($item->confidence) && $item->confidence != '' ? strtoupper($item->confidence) : 'LOW';
 
+            $result_count = count($data);
+            $matchCodes = $item->matchCodes;
+            $partial_match = is_array($matchCodes) && (in_array('Ambiguous',$matchCodes) || in_array('UpHierarchy',$matchCodes)) ? true : false;
+            $types = isset($item->entityType) ? array($item->entityType) : '';
+
             $results[] = array_merge($this->getDefaults(), array(
                 'latitude'     => $coordinates[0],
                 'longitude'    => $coordinates[1],
@@ -155,6 +161,10 @@ class BingMapsProvider extends AbstractProvider implements LocaleAwareProviderIn
                 'raw'         => $content,
                 'provider'    => $this->getName(),
                 'confidence'  => empty($confidence) ? null : $confidence,
+                'calculation_method' => empty($calculation_method) ? null : $calculation_method,
+                'result_count'  => $result_count,
+                'partial_match' => $partial_match,
+                'types'         => $types,
             ));
         }
 

@@ -161,9 +161,11 @@ class GoogleMapsProvider extends AbstractProvider implements LocaleAwareProvider
         }
 
         $results = array();
+        $resultCount = count($json->results);
 
         foreach ($json->results as $result) {
             $resultset = $this->getDefaults();
+            $resultset['result_count'] = $resultCount;
 
             // update address components
             foreach ($result->address_components as $component) {
@@ -197,9 +199,9 @@ class GoogleMapsProvider extends AbstractProvider implements LocaleAwareProvider
 
             $resultset['provider'] = $this->getName();
             $resultset['raw'] = $content;
-
-            //TODO: medium?
-            $resultset['confidence'] = 'ROOFTOP' === $result->geometry->location_type ? 'HIGH' : 'LOW';
+            $resultset['calculation_method'] = $result->geometry->location_type;
+            $resultset['partial_match'] = isset($result->partial_match)?$result->partial_match:false;
+            $resultset['types'] = isset($result->types)?$result->types:'';
 
             $results[] = array_merge($this->getDefaults(), $resultset);
         }
